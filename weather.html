@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather - LiveMy Trip</title>
+
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">LiveMy<span>Trip</span></div>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="planner.html">Planner</a></li>
+    <li><a href="weather.html" class="active">Weather</a></li>
+    <li><a href="budget.html">Budget</a></li>
+    <li><a href="bookings.html">Bookings</a></li>
+  </ul>
+
+  <button class="nav-btn" id="auth-btn" onclick="openAuthModal()">Sign In</button>
+</nav>
+
+<div class="page active" id="page-weather">
+  <div class="section">
+    <div class="section-title">Weather Forecast</div>
+    <div class="section-sub">Check conditions at your travel destination</div>
+
+    <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap">
+      <input
+        type="text"
+        id="weather-city"
+        placeholder="Enter city or country name..."
+        style="flex:1;min-width:200px;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none"
+      />
+      <button class="btn-primary" onclick="fetchWeather()">Get Weather</button>
+    </div>
+
+    <div class="weather-hero" id="weather-main">
+      <div>
+        <div style="font-size:.9rem;opacity:.8;margin-bottom:.25rem" id="w-city">Mumbai, India</div>
+        <div class="weather-temp" id="w-temp">28°C</div>
+        <div style="font-size:1rem;opacity:.9;margin-top:.25rem" id="w-desc">Partly Cloudy · Humidity 72%</div>
+        <div style="margin-top:1rem;font-size:13px;opacity:.75" id="w-extras">Wind: 14 km/h · Feels like 31°C</div>
+      </div>
+
+      <div class="weather-icon-big" id="w-icon">⛅</div>
+    </div>
+
+    <div class="weather-grid" id="forecast-grid">
+      <div class="weather-day"><div class="weather-day-name">Mon</div><div class="weather-day-icon">🌤️</div><div class="weather-day-temp">29°C</div></div>
+      <div class="weather-day"><div class="weather-day-name">Tue</div><div class="weather-day-icon">🌧️</div><div class="weather-day-temp">25°C</div></div>
+      <div class="weather-day"><div class="weather-day-name">Wed</div><div class="weather-day-icon">☀️</div><div class="weather-day-temp">32°C</div></div>
+      <div class="weather-day"><div class="weather-day-name">Thu</div><div class="weather-day-icon">⛅</div><div class="weather-day-temp">30°C</div></div>
+      <div class="weather-day"><div class="weather-day-name">Fri</div><div class="weather-day-icon">🌦️</div><div class="weather-day-temp">26°C</div></div>
+    </div>
+
+    <div style="margin-top:1.5rem;background:var(--card);border-radius:14px;padding:1.5rem;border:1px solid var(--border);box-shadow:var(--shadow)">
+      <h3 style="font-size:1rem;color:var(--primary);margin-bottom:.75rem">Packing Suggestions</h3>
+
+      <div id="pack-tips" style="display:flex;flex-wrap:wrap;gap:.5rem">
+        <span class="trip-chip selected">☔ Umbrella</span>
+        <span class="trip-chip selected">🕶️ Sunglasses</span>
+        <span class="trip-chip selected">👕 Light clothes</span>
+        <span class="trip-chip">🧥 Jacket</span>
+        <span class="trip-chip">🥾 Boots</span>
+        <span class="trip-chip selected">🧴 Sunscreen</span>
+        <span class="trip-chip">❄️ Thermals</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast">✓ Done!</div>
+
+<script type="module" src="firebase.js"></script>
+<script src="script.js"></script>
+
+<div class="auth-modal" id="auth-modal">
+  <div class="auth-box">
+    <button class="auth-close" onclick="closeAuthModal()">×</button>
+
+    <h2 id="auth-title">Sign In</h2>
+    <p class="auth-sub">Access your LiveMyTrip account</p>
+
+    <div id="signup-name-box" class="form-group" style="display:none">
+      <label>Name</label>
+      <input type="text" id="signup-name" placeholder="Your name">
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="auth-email" placeholder="you@example.com">
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="auth-password" placeholder="Password">
+    </div>
+
+    <button class="btn-primary" style="width:100%" id="auth-submit" onclick="loginUser()">
+      Sign In
+    </button>
+
+    <button class="btn-outline" style="width:100%;margin-top:10px" onclick="googleLogin()">
+      Continue with Google
+    </button>
+
+    <p class="auth-switch">
+      <span id="auth-switch-text">Don’t have an account?</span>
+      <button onclick="toggleAuthMode()" id="auth-switch-btn">Sign Up</button>
+    </p>
+  </div>
+</div>
+</body>
+</html>

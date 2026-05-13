@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bookings - LiveMyTrip</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">LiveMy<span>Trip</span></div>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="planner.html">Planner</a></li>
+    <li><a href="weather.html">Weather</a></li>
+    <li><a href="budget.html">Budget</a></li>
+    <li><a href="bookings.html" class="active">Bookings</a></li>
+  </ul>
+
+  <button class="nav-btn" id="auth-btn" onclick="openAuthModal()">Sign In</button>
+</nav>
+
+<div class="page active">
+  <div class="section">
+
+    <div class="section-title">My Bookings</div>
+    <div class="section-sub">Track your flights, hotels and travel packages</div>
+
+    <div style="margin-bottom:1.5rem">
+      <span class="trip-chip selected">All</span>
+      <span class="trip-chip">✈️ Flights</span>
+      <span class="trip-chip">🏨 Hotels</span>
+      <span class="trip-chip">📦 Packages</span>
+    </div>
+
+    <div class="booking-grid" id="bookings-grid">
+
+      <div class="booking-card">
+        <div class="booking-header">
+          <h3>✈️ Flight Booking</h3>
+          <span class="booking-status status-confirmed">Confirmed</span>
+        </div>
+
+        <div class="booking-body">
+          <div class="booking-row"><span>Route</span><span>Mumbai → Goa</span></div>
+          <div class="booking-row"><span>Date</span><span>15 Jun 2024</span></div>
+          <div class="booking-row"><span>Airline</span><span>Air India</span></div>
+          <div class="booking-row"><span>Flight</span><span>AI 2312</span></div>
+          <div class="booking-row"><span>Travelers</span><span>2 Adults, 0 Child</span></div>
+          <div class="booking-row">
+            <span>Amount</span>
+            <span style="font-weight:700;color:var(--primary)">₹8,500</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-card">
+        <div class="booking-header">
+          <h3>🏨 Hotel Booking</h3>
+          <span class="booking-status status-confirmed">Confirmed</span>
+        </div>
+
+        <div class="booking-body">
+          <div class="booking-row"><span>Destination</span><span>Goa</span></div>
+          <div class="booking-row"><span>Hotel</span><span>The Grand Resort</span></div>
+          <div class="booking-row"><span>Check-in</span><span>15 Jun 2024</span></div>
+          <div class="booking-row"><span>Check-out</span><span>18 Jun 2024</span></div>
+          <div class="booking-row"><span>Room</span><span>Deluxe Sea View</span></div>
+          <div class="booking-row"><span>Travelers</span><span>2 Adults, 0 Child</span></div>
+          <div class="booking-row">
+            <span>Amount</span>
+            <span style="font-weight:700;color:var(--primary)">₹6,000</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-card">
+  <div class="booking-header">
+    <h3>📦 Bali Package</h3>
+    <span class="booking-status status-pending">Pending</span>
+  </div>
+
+  <div class="booking-body">
+    <div class="booking-row"><span>Destination</span><span>Bali</span></div>
+    <div class="booking-row"><span>Airline</span><span>Emirates</span></div>
+    <div class="booking-row"><span>Flight</span><span>EM 4582</span></div>
+    <div class="booking-row"><span>Hotel</span><span>Palm Paradise Hotel</span></div>
+    <div class="booking-row"><span>Room</span><span>Deluxe Suite</span></div>
+    <div class="booking-row"><span>Duration</span><span>7 Nights / 8 Days</span></div>
+    <div class="booking-row"><span>Departure</span><span>22 Jul 2024</span></div>
+    <div class="booking-row"><span>Includes</span><span>Flight + Hotel</span></div>
+    <div class="booking-row"><span>Travelers</span><span>2 Adults, 1 Child</span></div>
+    <div class="booking-row">
+      <span>Amount</span>
+      <span style="font-weight:700;color:var(--primary)">₹45,000</span>
+    </div>
+  </div>
+</div>
+      </div>
+
+    </div>
+
+    <div class="planner-sidebar" style="margin-top:2rem;padding:1.5rem">
+      <h3 style="margin-bottom:1.5rem">Quick Book</h3>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr auto;gap:12px;align-items:end">
+
+        <div class="form-group" style="margin:0">
+          <label>Booking Type</label>
+          <select id="quick-type">
+            <option value="flight">✈️ Flight</option>
+            <option value="hotel">🏨 Hotel</option>
+            <option value="package">📦 Package</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin:0">
+          <label>From</label>
+          <input type="text" id="quick-from" placeholder="Mumbai"/>
+        </div>
+
+        <div class="form-group" style="margin:0">
+          <label>To</label>
+          <input type="text" id="quick-to" placeholder="Destination"/>
+        </div>
+
+        <div class="form-group" style="margin:0">
+          <label>Date</label>
+          <input type="date" id="quick-date"/>
+        </div>
+
+        <div class="form-group" style="margin:0">
+          <label>Adults</label>
+          <select id="quick-adults">
+            <option value="1">1 Adult</option>
+            <option value="2" selected>2 Adults</option>
+            <option value="3">3 Adults</option>
+            <option value="4">4 Adults</option>
+            <option value="5">5 Adults</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin:0">
+          <label>Children</label>
+          <select id="quick-children">
+            <option value="0" selected>0 Child</option>
+            <option value="1">1 Child</option>
+            <option value="2">2 Children</option>
+            <option value="3">3 Children</option>
+            <option value="4">4 Children</option>
+          </select>
+        </div>
+
+        <button class="btn-accent" onclick="quickBook()">Book →</button>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast">✓ Done!</div>
+
+<script type="module" src="firebase.js"></script>
+<script src="script.js"></script>
+
+<div class="auth-modal" id="auth-modal">
+  <div class="auth-box">
+    <button class="auth-close" onclick="closeAuthModal()">×</button>
+
+    <h2 id="auth-title">Sign In</h2>
+    <p class="auth-sub">Access your LiveMyTrip account</p>
+
+    <div id="signup-name-box" class="form-group" style="display:none">
+      <label>Name</label>
+      <input type="text" id="signup-name" placeholder="Your name">
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="auth-email" placeholder="you@example.com">
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="auth-password" placeholder="Password">
+    </div>
+
+    <button class="btn-primary" style="width:100%" id="auth-submit" onclick="loginUser()">
+      Sign In
+    </button>
+
+    <button class="btn-outline" style="width:100%;margin-top:10px" onclick="googleLogin()">
+      Continue with Google
+    </button>
+
+    <p class="auth-switch">
+      <span id="auth-switch-text">Don’t have an account?</span>
+      <button onclick="toggleAuthMode()" id="auth-switch-btn">Sign Up</button>
+    </p>
+  </div>
+</div>
+</body>
+</html>

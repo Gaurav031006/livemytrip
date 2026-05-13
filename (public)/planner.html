@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planner - LiveMy Trip</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+<nav>
+  <div class="nav-logo">
+  <img src="logo.png" class="site-logo" alt="LiveMYTrip Logo">
+  LiveMY<span>Trip</span>
+</div>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="planner.html" class="active">Planner</a></li>
+    <li><a href="weather.html">Weather</a></li>
+    <li><a href="budget.html">Budget</a></li>
+    <li><a href="bookings.html">Bookings</a></li>
+  </ul>
+
+  <button class="nav-btn" id="auth-btn" onclick="openAuthModal()">
+    Sign In
+  </button>
+</nav>
+
+<div class="page active" id="page-planner">
+
+  <div class="section">
+
+    <div class="section-title">
+      Trip Itinerary Planner
+    </div>
+
+    <div class="section-sub">
+      Build your perfect day-by-day travel schedule
+    </div>
+
+    <div class="planner-layout">
+
+      <!-- LEFT -->
+
+      <div class="planner-sidebar">
+
+        <h3>Trip Details</h3>
+
+        <div class="form-group">
+          <label>Destination</label>
+
+          <input
+            type="text"
+            id="plan-dest"
+            placeholder="City, Country"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Start Date</label>
+
+          <input
+            type="date"
+            id="plan-start"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>End Date</label>
+
+          <input
+            type="date"
+            id="plan-end"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Trip Type</label>
+
+          <select id="plan-type">
+            <option>Solo</option>
+            <option>Family</option>
+            <option>Group</option>
+            <option>Business</option>
+            <option>Couple</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Activity to Add</label>
+
+          <input
+            type="text"
+            id="act-name"
+            placeholder="e.g. Visit Eiffel Tower"
+          />
+        </div>
+
+        <div style="
+          display:grid;
+          grid-template-columns:1fr 1fr;
+          gap:8px;
+        ">
+
+          <div class="form-group">
+            <label>Time</label>
+
+            <input
+              type="time"
+              id="act-time"
+              value="09:00"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Day</label>
+
+            <select id="act-day">
+              <option value="1">Day 1</option>
+              <option value="2">Day 2</option>
+              <option value="3">Day 3</option>
+              <option value="4">Day 4</option>
+              <option value="5">Day 5</option>
+              <option value="6">Day 6</option>
+              <option value="7">Day 7</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Category</label>
+
+          <select id="act-cat">
+            <option value="sight">Sightseeing</option>
+            <option value="food">Food & Dining</option>
+            <option value="hotel">Accommodation</option>
+            <option value="transit">Transit</option>
+          </select>
+
+        </div>
+
+        <button
+          class="btn-primary"
+          style="width:100%"
+          onclick="addActivity()"
+        >
+          + Add Activity
+        </button>
+
+        <button
+          class="btn-outline"
+          style="width:100%;margin-top:.5rem"
+          onclick="generateItinerary()"
+        >
+          ✨ Auto-Generate Itinerary
+        </button>
+
+      </div>
+
+      <!-- RIGHT -->
+
+      <div class="itinerary-main">
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          margin-bottom:1.25rem
+        ">
+
+          <h3
+            id="itin-title"
+            style="
+              font-size:1.15rem;
+              color:var(--primary)
+            "
+          >
+            Trip Itinerary
+          </h3>
+
+          <button
+            class="btn-outline"
+            onclick="clearItinerary()"
+            style="
+              font-size:13px;
+              padding:6px 14px
+            "
+          >
+            Clear All
+          </button>
+
+        </div>
+
+        <div id="itinerary-body">
+
+          <div class="empty-state">
+
+            <div class="empty-icon">
+              🗺️
+            </div>
+
+            <p>
+              Your itinerary will appear here.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- AUTH MODAL -->
+
+<div class="auth-modal" id="auth-modal">
+
+  <div class="auth-box">
+
+    <button
+      class="auth-close"
+      onclick="closeAuthModal()"
+    >
+      ×
+    </button>
+
+    <h2 id="auth-title">
+      Sign In
+    </h2>
+
+    <p class="auth-sub">
+      Access your LiveMyTrip account
+    </p>
+
+    <div
+      id="signup-name-box"
+      class="form-group"
+      style="display:none"
+    >
+
+      <label>Name</label>
+
+      <input
+        type="text"
+        id="signup-name"
+        placeholder="Your name"
+      />
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Email</label>
+
+      <input
+        type="email"
+        id="auth-email"
+        placeholder="you@example.com"
+      />
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Password</label>
+
+      <input
+        type="password"
+        id="auth-password"
+        placeholder="Password"
+      />
+
+    </div>
+
+    <button
+      class="btn-primary"
+      style="width:100%"
+      id="auth-submit"
+      onclick="loginUser()"
+    >
+      Sign In
+    </button>
+
+    <button
+      class="btn-outline"
+      style="width:100%;margin-top:10px"
+      onclick="googleLogin()"
+    >
+      Continue with Google
+    </button>
+
+    <p class="auth-switch">
+
+      <span id="auth-switch-text">
+        Don’t have an account?
+      </span>
+
+      <button
+        onclick="toggleAuthMode()"
+        id="auth-switch-btn"
+      >
+        Sign Up
+      </button>
+
+    </p>
+
+  </div>
+
+</div>
+
+<div id="toast">
+  ✓ Done!
+</div>
+
+<script type="module" src="firebase.js"></script>
+
+<script src="script.js"></script>
+
+<script>
+
+window.addEventListener("DOMContentLoaded", function () {
+
+  var savedDest =
+    localStorage.getItem("tripDestination");
+
+  var savedStart =
+    localStorage.getItem("tripCheckin");
+
+  var savedEnd =
+    localStorage.getItem("tripCheckout");
+
+  var destInput =
+    document.getElementById("plan-dest");
+
+  var startInput =
+    document.getElementById("plan-start");
+
+  var endInput =
+    document.getElementById("plan-end");
+
+  if (savedDest && destInput) {
+    destInput.value = savedDest;
+  }
+
+  if (savedStart && startInput) {
+    startInput.value = savedStart;
+  }
+
+  if (savedEnd && endInput) {
+    endInput.value = savedEnd;
+  }
+
+  if (
+    savedDest &&
+    typeof generateItinerary === "function"
+  ) {
+    generateItinerary();
+  }
+
+});
+
+</script>
+<script src="script.js"></script>
+</body>
+</html>
