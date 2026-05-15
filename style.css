@@ -909,4 +909,134 @@ nav{
   width:40px;
   height:40px;
   object-fit:contain;
-}                            
+}
+
+@media (max-width: 900px){
+  nav{
+    height:auto;
+    padding:1rem;
+    flex-wrap:wrap;
+    gap:1rem;
+  }
+
+  .nav-links{
+    order:3;
+    width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:.8rem;
+  }
+
+  .hero{
+    padding:3.5rem 1rem 3rem;
+  }
+
+  .hero h1{
+    font-size:2.2rem;
+  }
+
+  .hero p{
+    font-size:1rem;
+  }
+
+  .hero-search{
+    grid-template-columns:1fr;
+    max-width:420px;
+  }
+
+  .hero-search .btn-primary{
+    width:100%;
+  }
+
+  .section{
+    padding:2.5rem 1rem;
+  }
+
+  .planner-layout{
+    grid-template-columns:1fr;
+  }
+
+  .budget-summary{
+    grid-template-columns:1fr;
+  }
+
+  .booking-grid,
+  .card-grid,
+  .features-grid{
+    grid-template-columns:1fr;
+  }
+
+  .weather-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .weather-hero{
+    grid-template-columns:1fr;
+    text-align:center;
+    gap:1rem;
+  }
+
+  .activity-item,
+  .expense-item,
+  .booking-row{
+    align-items:flex-start;
+    gap:.5rem;
+  }
+}
+
+@media (max-width: 520px){
+  .nav-logo{
+    font-size:1.1rem;
+  }
+
+  .nav-btn{
+    padding:7px 14px;
+    font-size:13px;
+  }
+
+  .nav-links a{
+    font-size:13px;
+  }
+
+  .hero h1{
+    font-size:1.8rem;
+  }
+
+  .section-title{
+    font-size:1.45rem;
+  }
+
+  .planner-sidebar,
+  .itinerary-main,
+  .expense-list,
+  .booking-card,
+  .auth-box{
+    border-radius:12px;
+  }
+
+  .activity-item{
+    display:grid;
+    grid-template-columns:55px 1fr;
+  }
+
+  .activity-tag{
+    grid-column:2;
+    width:max-content;
+  }
+
+  .weather-grid{
+    grid-template-columns:1fr;
+  }
+
+  .booking-row{
+    flex-direction:column;
+  }
+
+  .budget-stat-val{
+    font-size:1.5rem;
+  }
+
+  .quick-book-grid{
+    grid-template-columns:1fr !important;
+  }
+}
