@@ -1040,3 +1040,27 @@ nav{
     grid-template-columns:1fr !important;
   }
 }
+
+.quick-book-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 1fr auto;
+  gap:12px;
+  align-items:end;
+}
+
+@media(max-width:900px){
+  .quick-book-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:520px){
+  .quick-book-grid{
+    grid-template-columns:1fr;
+  }
+
+  .quick-book-grid .btn-accent,
+  .quick-book-grid .btn-primary{
+    width:100%;
+  }
+}
