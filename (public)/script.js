@@ -1,3 +1,40 @@
+const GEOAPIFY_API_KEY = "5f0d53a943244ea8a1064c8d354f154b";
+
+async function fetchPlaces(city) {
+  try {
+    const geoUrl =
+      "https://api.geoapify.com/v1/geocode/search?text=" +
+      encodeURIComponent(city) +
+      "&limit=1&apiKey=" +
+      GEOAPIFY_API_KEY;
+
+    const geoRes = await fetch(geoUrl);
+    const geoData = await geoRes.json();
+
+    if (!geoData.features || !geoData.features.length) {
+      return [];
+    }
+
+    const lon = geoData.features[0].properties.lon;
+    const lat = geoData.features[0].properties.lat;
+
+    const placesUrl =
+      "https://api.geoapify.com/v2/places?categories=tourism.attraction,catering.restaurant,accommodation.hotel&filter=circle:" +
+      lon +
+      "," +
+      lat +
+      ",20000&limit=60&apiKey=" +
+      GEOAPIFY_API_KEY;
+
+    const placesRes = await fetch(placesUrl);
+    const placesData = await placesRes.json();
+
+    return placesData.features || [];
+  } catch (error) {
+    console.log("Geoapify error:", error);
+    return [];
+  }
+}
 var activities = [];
 
 var presets = {
@@ -93,7 +130,7 @@ function toast(msg) {
    PLANNER
 ========================= */
 
-function generateItinerary() {
+async function generateItinerary() {
   var destInput = document.getElementById("plan-dest");
   var startInput = document.getElementById("plan-start");
   var endInput = document.getElementById("plan-end");
@@ -123,52 +160,72 @@ function generateItinerary() {
 
   activities = [];
 
-  var key = Object.keys(presets).find(function(city) {
-    return city.toLowerCase() === dest.toLowerCase();
+  var cityName = dest;
+
+  toast("🔎 Finding real places in " + cityName + "...");
+
+  var places = await fetchPlaces(cityName);
+
+  function hasCategory(place, category) {
+    return (
+      place &&
+      place.properties &&
+      place.properties.name &&
+      place.properties.categories &&
+      place.properties.categories.includes(category)
+    );
+  }
+
+  var hotels = places.filter(function (p) {
+    return hasCategory(p, "accommodation.hotel");
   });
 
-  var cityName = key || dest;
+  var restaurants = places.filter(function (p) {
+    return hasCategory(p, "catering.restaurant");
+  });
 
-var dynamicPlans = [
-  ["08:00", "Airport / railway transfer to hotel in " + cityName, "transit"],
-  ["09:30", "Hotel check-in and freshen up", "hotel"],
-  ["11:00", "Visit top landmark in " + cityName, "sight"],
-  ["13:00", "Lunch at popular local restaurant", "food"],
+  var attractions = places.filter(function (p) {
+    return hasCategory(p, "tourism.attraction");
+  });
 
-  ["09:00", "Local transport to sightseeing area", "transit"],
-  ["10:00", "Museum / cultural attraction visit", "sight"],
-  ["13:30", "Try street food in " + cityName, "food"],
-  ["16:00", "Shopping at local market", "sight"],
-
-  ["08:30", "Cab transfer for day trip near " + cityName, "transit"],
-  ["10:00", "Adventure activity / local tour", "sight"],
-  ["13:00", "Traditional lunch experience", "food"],
-  ["18:00", "Return to hotel and relax", "hotel"],
-
-  ["09:30", "Hotel breakfast and checkout preparation", "hotel"],
-  ["11:00", "Temple / heritage site visit", "sight"],
-  ["14:00", "Cafe or local food tasting", "food"],
-  ["17:00", "Transfer back to airport / railway station", "transit"],
-
-  ["10:00", "Guided sightseeing tour", "sight"],
-  ["13:00", "Lunch near tourist area", "food"],
-  ["16:30", "Hidden gem attraction in " + cityName, "sight"],
-  ["20:00", "Dinner and overnight stay at hotel", "hotel"]
-];
+  function pick(list, index, fallback) {
+    if (list && list.length) {
+      return list[index % list.length].properties.name;
+    }
+    return fallback;
+  }
 
   for (var day = 1; day <= totalDays; day++) {
-    var startIndex = ((day - 1) * 4) % dynamicPlans.length;
-
-    for (var i = 0; i < 4; i++) {
-      var plan = dynamicPlans[(startIndex + i) % dynamicPlans.length];
-
-      activities.push({
+    activities.push(
+      {
         day: day,
-        time: plan[0],
-        name: plan[1],
-        cat: plan[2]
-      });
-    }
+        time: "08:00",
+        name: day === 1
+          ? "Arrival at " + cityName + " airport / station"
+          : "Local transport for sightseeing in " + cityName,
+        cat: "transit"
+      },
+      {
+        day: day,
+        time: "09:30",
+        name: day === 1
+          ? "Check-in at " + pick(hotels, 0, "Best Hotel in " + cityName)
+          : "Breakfast at " + pick(hotels, 0, "Hotel in " + cityName),
+        cat: "hotel"
+      },
+      {
+        day: day,
+        time: "13:00",
+        name: "Lunch at " + pick(restaurants, day - 1, "Top Restaurant in " + cityName),
+        cat: "food"
+      },
+      {
+        day: day,
+        time: "16:00",
+        name: "Visit " + pick(attractions, day - 1, "Popular Attraction in " + cityName),
+        cat: "sight"
+      }
+    );
   }
 
   renderItinerary(cityName);

@@ -91,108 +91,74 @@
 
 <!-- DESTINATIONS -->
 
+<section class="section destinations-section">
+
+<!-- DESTINATIONS -->
+
 <div class="section">
 
-  <div class="section-title">
-    Popular Destinations
-  </div>
+  <div class="section-title">Popular Destinations</div>
+  <div class="section-sub">Handpicked locations loved by travelers worldwide</div>
 
-  <div class="section-sub">
-    Handpicked locations loved by travelers worldwide
-  </div>
-
-  <div class="card-grid">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:2rem;">
 
     <!-- PARIS -->
-
-    <div class="dest-card" onclick="quickPlanTrip('Paris')" style="cursor:pointer">
-
-      <div class="dest-img" style="background:#FCE4EC">
-        🗼
-
-        <div class="dest-badge">
-          Trending
-        </div>
+    <div onclick="quickPlanTrip('Paris')" style="background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 8px 24px rgba(0,0,0,.08);cursor:pointer;">
+      <div style="height:220px;position:relative;overflow:hidden;">
+        <img src="images/paris.jpg" alt="Paris" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div style="position:absolute;top:12px;right:12px;background:#F4A261;color:#fff;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;">Trending</div>
       </div>
 
-      <div class="dest-body">
-
-        <h3>Paris, France</h3>
-
-        <p>
-          City of lights, romance, and world-class cuisine
-        </p>
-
-        <div class="dest-meta">
-          <span class="dest-price">From ₹85,000</span>
-          <span class="dest-rating">⭐ 4.8</span>
+      <div style="padding:18px;background:#fff;">
+        <h3 style="font-size:22px;margin-bottom:8px;color:#111;">Paris, France</h3>
+        <p style="font-size:14px;color:#666;line-height:1.6;margin-bottom:14px;">City of lights, romance, and world-class cuisine</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;padding-top:12px;">
+          <span style="font-weight:700;color:#1B4332;">From ₹85,000</span>
+          <span style="color:#666;">⭐ 4.8</span>
         </div>
-
       </div>
-
     </div>
 
     <!-- GOA -->
-
-    <div class="dest-card" onclick="quickPlanTrip('Goa')" style="cursor:pointer">
-
-      <div class="dest-img" style="background:#E0F2FE">
-        🏖️
-
-        <div class="dest-badge">
-          Popular
-        </div>
+    <div onclick="quickPlanTrip('Goa')" style="background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 8px 24px rgba(0,0,0,.08);cursor:pointer;">
+      <div style="height:220px;position:relative;overflow:hidden;">
+        <img src="images/goa.jpg" alt="Goa" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div style="position:absolute;top:12px;right:12px;background:#F4A261;color:#fff;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;">Popular</div>
       </div>
 
-      <div class="dest-body">
-
-        <h3>Goa, India</h3>
-
-        <p>
-          Sun, sand, sea breeze and vibrant nightlife
-        </p>
-
-        <div class="dest-meta">
-          <span class="dest-price">From ₹12,000</span>
-          <span class="dest-rating">⭐ 4.6</span>
+      <div style="padding:18px;background:#fff;">
+        <h3 style="font-size:22px;margin-bottom:8px;color:#111;">Goa, India</h3>
+        <p style="font-size:14px;color:#666;line-height:1.6;margin-bottom:14px;">Sun, sand, sea breeze and vibrant nightlife</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;padding-top:12px;">
+          <span style="font-weight:700;color:#1B4332;">From ₹12,000</span>
+          <span style="color:#666;">⭐ 4.6</span>
         </div>
-
       </div>
-
     </div>
 
     <!-- BALI -->
-
-    <div class="dest-card" onclick="quickPlanTrip('Bali')" style="cursor:pointer">
-
-      <div class="dest-img" style="background:#DCFCE7">
-        🌴
-
-        <div class="dest-badge">
-          Hot Deal
-        </div>
+    <div onclick="quickPlanTrip('Bali')" style="background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 8px 24px rgba(0,0,0,.08);cursor:pointer;">
+      <div style="height:220px;position:relative;overflow:hidden;">
+        <img src="images/bali.jpg" alt="Bali" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div style="position:absolute;top:12px;right:12px;background:#F4A261;color:#fff;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;">Hot Deal</div>
       </div>
 
-      <div class="dest-body">
-
-        <h3>Bali, Indonesia</h3>
-
-        <p>
-          Temples, rice terraces, and pristine beaches
-        </p>
-
-        <div class="dest-meta">
-          <span class="dest-price">From ₹45,000</span>
-          <span class="dest-rating">⭐ 4.9</span>
+      <div style="padding:18px;background:#fff;">
+        <h3 style="font-size:22px;margin-bottom:8px;color:#111;">Bali, Indonesia</h3>
+        <p style="font-size:14px;color:#666;line-height:1.6;margin-bottom:14px;">Temples, rice terraces, and pristine beaches</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;padding-top:12px;">
+          <span style="font-weight:700;color:#1B4332;">From ₹45,000</span>
+          <span style="color:#666;">⭐ 4.9</span>
         </div>
-
       </div>
-
     </div>
 
   </div>
 
 </div>
+
+</section>
+
 
 <!-- AUTH MODAL -->
 
