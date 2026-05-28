@@ -343,44 +343,56 @@ function clearItinerary() {
 
 async function fetchWeather() {
   var cityInput = document.getElementById("weather-city");
-
   if (!cityInput) return;
 
   var city = cityInput.value.trim();
 
   if (!city) {
-    toast("⚠️ Please enter city or country name");
+    toast("⚠️ Please enter city name");
     return;
   }
 
-  try {
-    toast("🌤️ Loading live weather...");
+  document.getElementById("w-city").textContent = "Loading...";
+  document.getElementById("w-temp").textContent = "--°C";
+  document.getElementById("w-desc").textContent = "Fetching latest weather...";
+  document.getElementById("w-extras").textContent = "";
+  document.getElementById("forecast-grid").innerHTML = "";
 
+  try {
     var geoUrl =
-      "https://geocoding-api.open-meteo.com/v1/search?name=" +
+      "https://api.geoapify.com/v1/geocode/search?text=" +
       encodeURIComponent(city) +
-      "&count=10&language=en&format=json";
+      "&limit=1&apiKey=" +
+      GEOAPIFY_API_KEY;
 
     var geoRes = await fetch(geoUrl);
-
-    if (!geoRes.ok) {
-      throw new Error("Location request failed");
-    }
-
     var geoData = await geoRes.json();
 
-    if (!geoData.results || geoData.results.length === 0) {
-      toast("⚠️ City or country not found");
+    if (!geoData.features || geoData.features.length === 0) {
+      document.getElementById("w-city").textContent = "Location not found";
+      document.getElementById("w-temp").textContent = "--°C";
+      document.getElementById("w-desc").textContent =
+        "Try correct spelling, e.g. Dehradun Uttarakhand";
+      document.getElementById("w-extras").textContent = "";
+      document.getElementById("forecast-grid").innerHTML = "";
+      toast("⚠️ Location not found");
       return;
     }
 
-    var place = geoData.results[0];
+    var place = geoData.features[0].properties;
+    var lat = place.lat;
+    var lon = place.lon;
+
+    var placeName =
+      (place.city || place.name || city) +
+      (place.state ? ", " + place.state : "") +
+      (place.country ? ", " + place.country : "");
 
     var weatherUrl =
       "https://api.open-meteo.com/v1/forecast?latitude=" +
-      place.latitude +
+      lat +
       "&longitude=" +
-      place.longitude +
+      lon +
       "&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,weather_code" +
       "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
       "&forecast_days=5" +
@@ -389,20 +401,10 @@ async function fetchWeather() {
       "&timezone=auto";
 
     var weatherRes = await fetch(weatherUrl);
-
-    if (!weatherRes.ok) {
-      throw new Error("Weather request failed");
-    }
-
     var weatherData = await weatherRes.json();
 
     var current = weatherData.current;
     var daily = weatherData.daily;
-
-    var placeName =
-      place.name +
-      (place.admin1 ? ", " + place.admin1 : "") +
-      (place.country ? ", " + place.country : "");
 
     document.getElementById("w-city").textContent = placeName;
     document.getElementById("w-temp").textContent =
@@ -428,10 +430,7 @@ async function fetchWeather() {
 
     for (var i = 0; i < daily.time.length; i++) {
       var date = new Date(daily.time[i]);
-
-      var dayName = date.toLocaleDateString("en-US", {
-        weekday: "short"
-      });
+      var dayName = date.toLocaleDateString("en-US", { weekday: "short" });
 
       html += `
         <div class="weather-day">
@@ -444,16 +443,18 @@ async function fetchWeather() {
       `;
     }
 
-    var forecastGrid = document.getElementById("forecast-grid");
+    document.getElementById("forecast-grid").innerHTML = html;
+    toast("✅ Weather loaded for " + placeName);
 
-    if (forecastGrid) {
-      forecastGrid.innerHTML = html;
-    }
-
-    toast("✅ Live weather loaded for " + placeName);
   } catch (error) {
     console.log(error);
-    toast("❌ Weather data loading failed");
+    document.getElementById("w-city").textContent = "Weather loading failed";
+    document.getElementById("w-temp").textContent = "--°C";
+    document.getElementById("w-desc").textContent =
+      "Check internet/API key or try another city";
+    document.getElementById("w-extras").textContent = "";
+    document.getElementById("forecast-grid").innerHTML = "";
+    toast("❌ Weather loading failed");
   }
 }
 
